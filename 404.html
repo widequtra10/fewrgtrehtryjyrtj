@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <script>
+    window.onload = function() {
+      // базовый домен, куда будет редирект
+      const base = "https://google.com";
+
+      // путь после /redirect
+      const path = window.location.pathname.replace("/redirect", "");
+
+      // итоговая ссылка
+      const target = base + path;
+
+      // редирект
+      window.location.replace(target);
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
