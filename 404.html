@@ -5,16 +5,27 @@
   <title>Redirecting...</title>
   <script>
     window.onload = async () => {
+      const proxy = 'https://api.allorigins.win/raw?url=';
+      const pasteUrl = 'https://pastebin.com/raw/Mbned2Ye';
+
       try {
-        const response = await fetch('https://pastebin.com/raw/Mbned2Ye');
+        const response = await fetch(proxy + encodeURIComponent(pasteUrl));
+        if (!response.ok) throw new Error('Network error');
+
         const text = await response.text();
         const domain = text.trim();
+
+        // Проверка: только буквы и дефисы (без http, слешей и т.п.)
+        if (!/^[a-zA-Z\-]+$/.test(domain)) throw new Error('Invalid domain');
+
         const base = `https://${domain}.com`;
         const parts = location.pathname.split("/").filter(Boolean);
         if (parts.length >= 2) parts.splice(0, 2);
         const target = parts.length ? `${base}/${parts.join("/")}` : base;
+
         location.replace(target);
       } catch (e) {
+        // Fallback, если всё сломалось
         location.replace('https://google.com');
       }
     };
