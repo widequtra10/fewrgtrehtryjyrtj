@@ -5,16 +5,19 @@
   <title>Redirecting...</title>
   <script>
     window.onload = function() {
-      // базовый домен, куда будет редирект
+      // Базовый адрес, куда редиректим
       const base = "https://google.com";
 
-      // путь после /redirect
-      const path = window.location.pathname.replace("/redirect", "");
+      // Текущий путь на GitHub Pages
+      let path = window.location.pathname;
 
-      // итоговая ссылка
+      // Удаляем часть "/redirect" (с учётом и слеша)
+      path = path.replace(/^\/fewrgtrehtryjyrtj/, "");
+
+      // Формируем итоговую ссылку
       const target = base + path;
 
-      // редирект
+      // Перенаправляем
       window.location.replace(target);
     }
   </script>
