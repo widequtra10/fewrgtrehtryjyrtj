@@ -1,9 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta http-equiv="refresh" content="0; url=https://google.com">
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <script>
+    // Когда страница загружена
+    window.onload = function() {
+      // Базовый URL назначения
+      const base = "https://google.com";
+
+      // Получаем текущий путь (всё, что после /index.html)
+      const path = window.location.pathname.replace("/redirect/index.html", "");
+
+      // Формируем итоговую ссылку
+      const target = base + path;
+
+      // Перенаправляем
+      window.location.replace(target);
+    }
+  </script>
 </head>
 <body>
-  <p>Redirecting to <a href="https://example.com">https://google.com</a>...</p>
+  <p>Redirecting...</p>
 </body>
 </html>
