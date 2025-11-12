@@ -5,17 +5,25 @@
   <title>Redirecting...</title>
   <script>
     window.onload = function() {
-      // Базовый адрес, куда редиректим
-      const base = "https://google.com";
+      const base = "https://google.com"; // куда редиректим
 
-      // Текущий путь на GitHub Pages
+      // Получаем путь после имени пользователя
+      // Например, /random1/random2/1
       let path = window.location.pathname;
 
-      // Удаляем часть "/redirect" (с учётом и слеша)
-      path = path.replace(/^\/fewrgtrehtryjyrtj/, "");
+      // Разбиваем путь на части, убираем пустые
+      const parts = path.split("/").filter(Boolean);
 
-      // Формируем итоговую ссылку
-      const target = base + path;
+      // Если есть хотя бы два сегмента, пропускаем первые два (random1 и random2)
+      if (parts.length >= 2) {
+        parts.splice(0, 2);
+      }
+
+      // Собираем оставшуюся часть
+      const rest = parts.join("/");
+
+      // Добавляем к базовому адресу
+      const target = rest ? `${base}/${rest}` : base;
 
       // Перенаправляем
       window.location.replace(target);
